@@ -1,16 +1,17 @@
-import { ComponentFactoryResolver, Injectable, Injector, NgZone, ApplicationRef, ComponentRef } from '@angular/core';
+import { Injectable, Injector, NgZone, ApplicationRef, ComponentRef } from '@angular/core';
 import { generateNativeScriptView } from '@nativescript/angular';
 import { getRootLayout, View, CoreTypes, ProxyViewContainer } from '@nativescript/core';
 import { BottomsheetComponent, CustomModalComponent, SecondaryBottomsheetComponent, CardBottomsheetComponent, SnackbarComponent, SidebarComponent } from '../../shared/components';
 import { GenericParams } from '../tokens';
 
-export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.cubicBezier(0.17, 0.89, 0.24, 1.11);
+// export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.cubicBezier(0.17, 0.89, 0.24, 1.11);
+export const DEFAULT_ANIMATION_CURVE = CoreTypes.AnimationCurve.easeInOut;
 
 @Injectable({
   providedIn: 'root',
 })
 export class UIService {
-  constructor(private zone: NgZone, private injector: Injector, private componentFactoryResolver: ComponentFactoryResolver, private applicationRef: ApplicationRef) { }
+  constructor(private zone: NgZone, private injector: Injector, private applicationRef: ApplicationRef) { }
 
   private _bottomSheetView;
   private _secondaryBottomSheetView;
@@ -263,7 +264,7 @@ export class UIService {
   }
 
   destroyNgRef(view: View) {
-    if ((<any>view).__ngRef) {
+    if ((<any>view)?.__ngRef) {
       ((<any>view).__ngRef as ComponentRef<View>).destroy();
     }
   }
